@@ -9,8 +9,8 @@ import java.sql.*;
  */
 public class UI {
 
-    private final String url = "jdbc:mysql://seitux2.adfa.unsw.edu.au/z5260802?autoReconnect=true&useSSL=false";
-    private final String user = "z5260802";
+    private final String url = "jdbc:mysql://seitux2.adfa.unsw.edu.au/z5260789?autoReconnect=true&useSSL=false";
+    private final String user = "z5260789";
     private final String password = "mysqlpass";
     int StudentNumber = 0;
 
@@ -18,10 +18,10 @@ public class UI {
         updateStudentID();
     }
 
-    public void updateStudentID() {
+    private void updateStudentID() {
         int rs2 = 0;
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.jdbc.Driver").getConstructor().newInstance();
             Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT MAX(ID) FROM Students");
@@ -41,19 +41,15 @@ public class UI {
     public void addStudent() {
         Scanner scan = new Scanner(System.in);
         int ID = StudentNumber++;
-        String first_name = null;
-        String last_name = null;
-        LocalDate DOBL = null;
-        String group_ = null;
         System.out.print("Enter the Students First Name\n");
-        first_name = scan.next();
+        String first_name = scan.next();
         System.out.print("Enter the Students Last Name\n");
-        last_name = scan.next();
+        String last_name = scan.next();
         System.out.print("Enter the Students DOB (YYYY-MM-DD)\n");
-        DOBL = LocalDate.parse(scan.next());
+        LocalDate DOBL = LocalDate.parse(scan.next());
         Date DOB = Date.valueOf(DOBL);
         System.out.print("Enter the Students Group\n");
-        group_ = scan.next();
+        String group_ = scan.next();
         updateStudentID();
         try {
             Class.forName("com.mysql.jdbc.Driver").getConstructor().newInstance();
@@ -63,6 +59,12 @@ public class UI {
                     + "VALUES (" + StudentNumber + ",'" + first_name + "','" + last_name
                     + "','" + DOB + "','" + group_ + "')";
             stmt.executeUpdate(query);
+            query = "CREATE TABLE Student" + ID + "Record(b_name varchar(255), "
+                    + "b_ID int NOT NULL, PRIMARY KEY (b_ID), 1_ int, 2_ int, "
+                    + "3_ int, 4_ int, 5_ int, 6_ int, 7_ int, 8_ int, 9_ int, "
+                    + "10_ int, 11_ int, 12_ int, 13_ int, 14_ int "
+                    + "VALUES (Badge1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0)";
+            stmt.executeUpdate(query);//b_id is the badge ID - indicating which badge
             stmt.close();
             conn.close();
         } catch (SQLException ex) {
@@ -82,9 +84,10 @@ public class UI {
             Class.forName("com.mysql.jdbc.Driver").getConstructor().newInstance();
             Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT MAX(ID) FROM Students WHERE ID = '" + x + "'");
-            rs.next();
+            String query = "INSERT INTO Student" + x + "Record()"
+                    + "VALUES(0,0,0,0,0,0,0,0,0,0,0,0,0,0)";
             stmt.close();
+            stmt.executeUpdate(query);
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -94,15 +97,12 @@ public class UI {
         }
     }
 
-    public void recordAttendance() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Enter the Students ID");
-        int ID = scan.nextInt();
+    public void recordAttendance(String day, int ID) {
         try {
             Class.forName("com.mysql.jdbc.Driver").getConstructor().newInstance();
             Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
-            String query = "INSERT INTO Dates(mon) VALUES (1) WHERE ID = " + ID;
+            String query = "INSERT INTO Dates("+day+") VALUES (1) WHERE ID = " + ID;
             stmt.executeUpdate(query);
             stmt.close();
             conn.close();
@@ -114,10 +114,10 @@ public class UI {
         }
     }
 
-     public void studentSearch(){
-            
-        }
-    
+    public void studentSearch() {
+        
+    }
+
     public static void main(String[] args) {
         //UI test = new UI();
     }
