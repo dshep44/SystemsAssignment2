@@ -4,18 +4,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-/**
- * ***********************************************
- *
- * Description: Main method for triggering the SwarmDataReader
- *
- * (DSR Assignment 2)
- *
- * @author Kathryn Kasmarik
- * @date Feb 2020
- *
- ************************************************
- */
 public class UImain {
     // Main menu constants
 
@@ -109,7 +97,12 @@ public class UImain {
                                 break;
                         }
                     case RECORDRESULTS:
-                        sdr.recordResults();
+                        Scanner s2 = new Scanner(System.in);
+                        System.out.print("Enter the Student ID");
+                        int x = s2.nextInt();
+                        System.out.print("Enter the Badge ID");
+                        int y = s2.nextInt();
+                        sdr.recordResults(x, y);
                         System.out.println();
                         break;
                     case SEARCH:
